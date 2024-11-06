@@ -1,19 +1,26 @@
 "use client"
+import React from "react";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { signIn,useSession } from "next-auth/react";
+import { signIn,useSession,signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Auth () {
     const {data:session} = useSession();
-    console.log("user session",session);
-    
+    const router = useRouter();
+
+    React.useEffect(() => {
+        if (session?.user) {
+            router.push("/dashboard/borrow")
+        }
+    },[session]);
 
     return (
         <main className="min-h-[520px] flex justify-center bg-gradient-to-b from-gray-50 to-gray-300 py-8 px-2">
             <article>
                 <div className="w-full md:w-[24em] rounded-md bg-white p-4">
-                    <h1 className="text-2xl mb-2">Sign in to Bills</h1>
+                    <h1 className="text-2xl mb-2" >Sign in to Bills</h1>
                     <p className="text-sm text-gray-600 mb-4">Sign in using ...</p>
 
                     <form 
