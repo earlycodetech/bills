@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { useSearchParams } from "next/navigation";
+import { AppContext } from "@/config/context.config";
 import { db } from "@/config/firebase.config";
 import { doc,getDoc } from "firebase/firestore";
 import { Skeleton } from "@mui/material";
@@ -13,14 +13,13 @@ const schema = yup.object().shape({
 });
 
 export default function History () {
+    const {loanDocId} = React.useContext(AppContext);
     const [loan,setLoan] = React.useState(null);
     const [totalOffsets,setTotalOffsets] = React.useState(0);
 
-    const docId = useSearchParams().get("doc_id");
-
     React.useEffect(() => {
         const handleDocFetch = async () => {
-            const docRef = doc(db,"loans",docId);
+            const docRef = doc(db,"loans",loanDocId);
             const res = await getDoc(docRef);
 
             if (res.exists()) {

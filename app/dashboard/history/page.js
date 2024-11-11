@@ -4,8 +4,6 @@ import { db } from "@/config/firebase.config";
 import { getDocs,collection,orderBy } from "firebase/firestore";
 import { HistoryTab } from "@/components/HistoryTab";
 
-//github.com/fallyfox/bills
-
 export default function History () {
     const [loans,setLoans] = React.useState([]);
 
