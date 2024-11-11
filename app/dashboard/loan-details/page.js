@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from "next/navigation";
 import React from "react";
 import { AppContext } from "@/config/context.config";
 import { db } from "@/config/firebase.config";
@@ -16,6 +17,14 @@ export default function History () {
     const {loanDocId} = React.useContext(AppContext);
     const [loan,setLoan] = React.useState(null);
     const [totalOffsets,setTotalOffsets] = React.useState(0);
+
+    const router = useRouter();
+
+    React.useEffect(() => {
+        if (loanDocId === null) {
+            router.push("/dashboard/history")
+        }
+    },[]);
 
     React.useEffect(() => {
         const handleDocFetch = async () => {
