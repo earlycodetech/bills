@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { signIn,useSession,signOut } from "next-auth/react";
+import { signIn,useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function Auth () {
