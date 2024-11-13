@@ -1,20 +1,16 @@
-"use client"
-import React from "react";
+"use server"
+import { redirect } from "next/navigation";
 import Link from "next/link";
+import { auth,signIn } from "@/auth";
 import { FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { signIn,useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
-export default function Auth () {
-    const {data:session} = useSession();
-    const router = useRouter();
+export default async function Auth () {
+    const session = await auth();
 
-    React.useEffect(() => {
-        if (session?.user) {
-            router.push("/dashboard/borrow")
-        }
-    },[session]);
+    if (session) {
+        redirect("/dashboard/borrow")
+    }
 
     return (
         <main className="min-h-[520px] flex justify-center bg-gradient-to-b from-gray-50 to-gray-300 py-8 px-2">
@@ -24,8 +20,9 @@ export default function Auth () {
                     <p className="text-sm text-gray-600 mb-4">Sign in using ...</p>
 
                     <form 
-                    action={() => {
-                        signIn("google")
+                    action={async () => {
+                        "use server"
+                        await signIn("google")
                     }}
                     className="mb-2">
                         <button type="submit" className="w-full h-[3.2em] flex justify-center items-center gap-2 border-b-2 border-red-500 bg-black rounded-md">
