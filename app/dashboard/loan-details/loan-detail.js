@@ -19,6 +19,7 @@ export default function LoanDetails ({user}) {
     const {loanDocId} = React.useContext(AppContext);
     const [loan,setLoan] = React.useState(null);
     const [offSets,setOffsets] = React.useState([]);
+    const [totalOffSets,setTotalOffsets] = React.useState(0);
     const [validateAmount,setValidateAmount] = React.useState(false);
     
     const router = useRouter();
@@ -48,6 +49,7 @@ export default function LoanDetails ({user}) {
     // retrieve loan offsets, to be used in update
     React.useEffect(() => {
         loan !== null ? setOffsets(loan.offSets) : null;
+        loan?.offSets ? setTotalOffsets(sumFromArray(loan?.offSets)) : null;
     },[loan]);
 
     const { handleSubmit,handleChange,touched,errors,values } = useFormik({
@@ -145,12 +147,14 @@ export default function LoanDetails ({user}) {
                    </ul>
                    <ul className="grid grid-cols-2 pb-3 mb-3 border-b border-gray-100">
                         <li className="text-lg text-gray-700 uppercase">Total Upsets</li>
-                        <li className="text-lg text-gray-700 text-end">₦{sumFromArray(loan.offSets)}</li>
+                        <li className="text-lg text-gray-700 text-end">
+                            ₦{totalOffSets}
+                        </li>
                    </ul>
 
                    <form 
                    onSubmit={handleSubmit} 
-                   style={{display:sumFromArray(loan.offSets) >= loan.payback ? "none" : "block"}}
+                   style={{display:totalOffSets >= loan.payback ? "none" : "block"}}
                    className="bg-gray-200 p-4 rounded-md">
                         <div className="flex flex-col gap-1 mb-2">
                             <label className="text-xs text-gray-700">Offset this loan</label>
